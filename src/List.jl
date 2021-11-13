@@ -1,6 +1,6 @@
 module List
 
-export createList, createQueue, createStack, ConsNode, ConsDouble
+export createList, createQueue, createStack, ConsNode, ConsDouble, BaseList
 export  copy, ==,
   push_next!, popat!, replace!, first, last, isempty, length, filter, top, eltype, push!, pop!,
   show, keys
