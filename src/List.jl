@@ -2,7 +2,7 @@ module List
 
 export createList, createQueue, createStack, ConsNode, ConsDouble, BaseList
 export  copy, ==,
-  push_next!, popat!, replace!, first, last, isempty, length, filter, top, eltype, push!, pop!,
+  push_next!, popat!, replace!, first, last, isempty, length, filter, top, eltype, push!, pop!, dataof
   show, keys
 
 include("ListNode.jl")
