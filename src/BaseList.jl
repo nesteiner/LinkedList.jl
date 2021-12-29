@@ -1,65 +1,77 @@
-import Base: push!, popat!, pop!,
+import Base: push!, popat!, pop!, pushfirst!, popfirst!,
   show, iterate,
   isempty, length,
   first, last,
   replace!, filter, keys, eltype
 
-mutable struct BaseList{T}
-  dummy::DummyNode
-  current::ListNode
+mutable struct BaseList{NodeType <: ListCons, T}
+  dummy::DummyNode{T}
+  current::Union{NodeType, DummyNode{T}}
   length::Int
-
-  insertfn::Function           # insertfn(list, data)
-  removefn::Function           # removefn(list)
-  nodetype::DataType           # consnode, consdouble
-  
-  BaseList(T::DataType, N::DataType, insertfn, removefn) = begin
-    dummy = DummyNode(T)
-    list = new{T}()
-    list.dummy = list.current = dummy
-    list.length = 0
-    
-    list.nodetype = N
-    list.insertfn = insertfn
-    list.removefn = removefn
-    return list
-  end
-
 end
+
+BaseList(T::DataType, nodetype::Type{NodeType}) where NodeType <: ListCons = begin
+  dummy = DummyNode(T)
+  return BaseList{nodetype, T}(dummy, dummy, 0)
+end
+ 
 
 keys(list::BaseList) = next(list.dummy)
 
-function push!(list::BaseList{T}, data::T) where T
+# 1. isempty, length
+isempty(list::BaseList) = list.length == 0
+length(list::BaseList) = list.length
+# 2. push!, pop!, pushfirst!, popfirst!, first, last
+function push!(list::BaseList{NodeType, T}, data::T) where {T, NodeType <: ListCons}
   list.length += 1
-  list.insertfn(list, data)
+
+  newnode = NodeType(data)
+  insert_next!(list.current, newnode)
+  list.current = next(list.current)
 end
 
-function push_next!(list::BaseList{T}, node::ListCons, data::T) where T
+function pushfirst!(list::BaseList{NodeType, T}, data::T) where {T, NodeType <: ListCons}
   list.length += 1
-  unlink = next(node)
-  newnode = list.nodetype(data)
-  insert_next!(node, newnode)
+
+  newnode = NodeType(data)
+  unlink = next(list.dummy)
   insert_next!(newnode, unlink)
+  insert_next!(list.dummy, newnode)
 end
 
-function pop!(list::BaseList) 
-  if isempty(list) 
-    @error "the list is empty"
-  else 
-    list.length -= 1
-    list.removefn(list)
-  end
+function pop!(list::BaseList)
+  @assert !isempty(list) "Fuck You, the list is empty"
+
+  list.length -= 1
+  prevnode = prev(list.current, list.dummy)
+  remove_next!(prevnode)
+  list.current = prevnode
 end
 
-function popat!(list::BaseList, iter::ListNext)
+function popfirst!(list::BaseList)
+  @assert !isempty(list) "Fuck You, the list is empty"
+  
+  list.length -= 1
+  prevnode = list.dummy
+  remove_next!(prevnode)
+end
+# 3. popat!, pushnext!
+function popat!(list::BaseList{NodeType, T}, iter::NodeType) where {T, NodeType <: ListCons}
   list.length -= 1
   prevnode = prev(iter, list.dummy)
   remove_next!(prevnode)
 end
 
-replace!(node::ListCons, data::T) where T = node.data = data
+function pushnext!(list::BaseList{NodeType, T}, iter::NodeType, data::T) where {T, NodeType <: ListCons}
+  list.length += 1
+  newnode = NodeType(data)
+  unlink = next(iter)
+  insert_next!(newnode, unlink)
+  insert_next!(iter, newnode)
+end
+# 4. other advanced function, iterate
+eltype(::Type{BaseList{NodeType, T}}) where {NodeType <: ListCons, T} = T
 
-eltype(::Type{BaseList{T}}) where T = T
 function iterate(list::BaseList)
   firstnode = next(list.dummy)
   if isa(firstnode, NilNode)
@@ -77,6 +89,10 @@ function iterate(::BaseList, state::ListNode)
   end
 end
 
+# 5. setter and getter
+replace!(node::NodeType, data::T) where {T, NodeType <: ListCons} =
+  node.data = data
+
 first(list::BaseList) = begin
   firstnode = next(list.dummy)
   if isa(firstnode, ListCons)
@@ -86,8 +102,6 @@ first(list::BaseList) = begin
     return nothing
   end
 end
-
-top = first
 
 last(list::BaseList) = begin
   lastnode = list.current
@@ -99,9 +113,6 @@ last(list::BaseList) = begin
   end
 end
 
-isempty(list::BaseList) = list.length == 0
-length(list::BaseList) = list.length
-
 function show(io::IO, list::BaseList)
   print(io, "list: ")
   for value in list
@@ -109,8 +120,8 @@ function show(io::IO, list::BaseList)
   end
 end
 
-function filter(testf::Function, list::BaseList{T}) where T
-  result = BaseList(T, list.nodetype, list.insertfn, list.removefn)
+function filter(testf::Function, list::BaseList{NodeType, T}) where {T, NodeType <: ListCons}
+  result = BaseList{NodeType, T}(DummyNode(T), NodeType(T), 0)
 
   for data in list
     if testf(data)

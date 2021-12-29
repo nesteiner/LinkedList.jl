@@ -1,4 +1,4 @@
-name = "List"
+name = "LinkedList"
 uuid = "8bb5f1f9-8766-4891-94ae-ce2d9eef0394"
 authors = ["nesteiner <46296608+nesteiner@users.noreply.github.com>"]
 version = "0.1.0"

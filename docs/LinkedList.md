@@ -1,38 +1,45 @@
 
 # Table of Contents
 
-1.  [LinkedList](#org1f3e960)
-    1.  [文档](#orga8a9ab6)
-    2.  [Usage](#orgef8073a)
-        1.  [创建链表](#org2cfc0f7)
-        2.  [添加数据](#orgffdeb78)
-        3.  [删除数据](#org63a3edf)
-        4.  [迭代相关](#org1db54d2)
-        5.  [查找相关](#org41229d3)
+1.  [LinkedList](#org3e4f9eb)
+    1.  [Usage](#orgfc4bfdc)
+        1.  [创建链表](#org51966f0)
+        2.  [添加数据](#org22eb519)
+        3.  [删除数据](#org12ea744)
+        4.  [迭代相关](#org9e23dc5)
+        5.  [查找相关](#orgeeca631)
 
 
 
-<a id="org1f3e960"></a>
+<a id="org3e4f9eb"></a>
 
 # LinkedList
 
-大幅度删改了以下，文档也是  
+Updated at 2021.12.29  
+这里重新写了一遍链表类，主要解决了用 `BaseList` 为别名，表示链表，队列，栈，从而无法判断这三个类的类型的问题  
+新的方法使用组合的方式，重新构建了一遍类  
+
+    abstract type AbstractLinkedList{NodeType, T} end
+    
+    mutable struct List{NodeType <: ListCons, T} <: AbstractLinkedList{NodeType, T}
+      baselist::BaseList{NodeType, T}
+    end
+    
+    mutable struct Queue{NodeType <: ListCons, T} <: AbstractLinkedList{NodeType, T}
+      baselist::BaseList{NodeType, T}
+    end
+    
+    mutable struct Stack{NodeType <: ListCons, T} <: AbstractLinkedList{NodeType, T}
+      baselist::BaseList{NodeType, T}
+    end
 
 
-<a id="orga8a9ab6"></a>
-
-## 文档
-
-[旧版本文档](./docs/oldversion.md)  
-[新版本文档](./docs/LinkedList.md)  
-
-
-<a id="orgef8073a"></a>
+<a id="orgfc4bfdc"></a>
 
 ## Usage
 
 
-<a id="org2cfc0f7"></a>
+<a id="org51966f0"></a>
 
 ### 创建链表
 
@@ -43,7 +50,7 @@
     double_list = List(Int; isdouble = true) # 创建一个双链表，其他链表类似的，可以对 isdouble 赋值
 
 
-<a id="orgffdeb78"></a>
+<a id="org22eb519"></a>
 
 ### 添加数据
 
@@ -61,7 +68,7 @@
         end
 
 
-<a id="org63a3edf"></a>
+<a id="org12ea744"></a>
 
 ### 删除数据
 
@@ -78,7 +85,7 @@
         end
 
 
-<a id="org1db54d2"></a>
+<a id="org9e23dc5"></a>
 
 ### 迭代相关
 
@@ -96,7 +103,7 @@
 不过 `filter` 需要自己定义，还好我也写了  
 
 
-<a id="org41229d3"></a>
+<a id="orgeeca631"></a>
 
 ### 查找相关
 
