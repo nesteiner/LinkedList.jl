@@ -1,17 +1,18 @@
 
 # Table of Contents
 
-1.  [LinkedList](#org3e4f9eb)
-    1.  [Usage](#orgfc4bfdc)
-        1.  [创建链表](#org51966f0)
-        2.  [添加数据](#org22eb519)
-        3.  [删除数据](#org12ea744)
-        4.  [迭代相关](#org9e23dc5)
-        5.  [查找相关](#orgeeca631)
+1.  [LinkedList](#org6502fb6)
+    1.  [Usage](#orgc598f36)
+        1.  [创建链表](#org9dfd645)
+        2.  [添加数据](#org5bde5d9)
+        3.  [删除数据](#org27ebfe4)
+        4.  [迭代相关](#org441cb13)
+        5.  [查找相关](#orge0ccd4c)
+        6.  [setter and getter](#org567f142)
 
 
 
-<a id="org3e4f9eb"></a>
+<a id="org6502fb6"></a>
 
 # LinkedList
 
@@ -34,12 +35,12 @@ Updated at 2021.12.29
     end
 
 
-<a id="orgfc4bfdc"></a>
+<a id="orgc598f36"></a>
 
 ## Usage
 
 
-<a id="org51966f0"></a>
+<a id="org9dfd645"></a>
 
 ### 创建链表
 
@@ -50,7 +51,7 @@ Updated at 2021.12.29
     double_list = List(Int; isdouble = true) # 创建一个双链表，其他链表类似的，可以对 isdouble 赋值
 
 
-<a id="org22eb519"></a>
+<a id="org5bde5d9"></a>
 
 ### 添加数据
 
@@ -68,7 +69,7 @@ Updated at 2021.12.29
         end
 
 
-<a id="org12ea744"></a>
+<a id="org27ebfe4"></a>
 
 ### 删除数据
 
@@ -85,7 +86,7 @@ Updated at 2021.12.29
         end
 
 
-<a id="org9e23dc5"></a>
+<a id="org441cb13"></a>
 
 ### 迭代相关
 
@@ -103,7 +104,7 @@ Updated at 2021.12.29
 不过 `filter` 需要自己定义，还好我也写了  
 
 
-<a id="orgeeca631"></a>
+<a id="orge0ccd4c"></a>
 
 ### 查找相关
 
@@ -112,4 +113,15 @@ Updated at 2021.12.29
     keys(linkedlist::ListType) where ListType <: AbstractLinkedList = keys(linkedlist.baselist)
 
 这样以后，可以直接调用 `find` 系列函数，返回值是 `链表节点` 或者空值 `nothing`  
+
+
+<a id="org567f142"></a>
+
+### setter and getter
+
+-   `fisrt`
+-   `last`
+-   `isempty`
+-   `length`
+-   `replace!(list, iter, data)`
 
