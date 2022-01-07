@@ -1,25 +1,52 @@
 
 # Table of Contents
 
-1.  [LinkedList](#org1f3e960)
-    1.  [文档](#orga8a9ab6)
-    2.  [Usage](#orgef8073a)
-        1.  [创建链表](#org2cfc0f7)
-        2.  [添加数据](#orgffdeb78)
-        3.  [删除数据](#org63a3edf)
-        4.  [迭代相关](#org1db54d2)
-        5.  [查找相关](#org41229d3)
+1.  [LinkedList](#org8732e4f)
+    1.  [更新 2022.1.7](#orge3ce40d)
+        1.  [issue](#orgea9ed1b)
+    2.  [更新 好像是12月份](#orgf701c6b)
+    3.  [文档](#orgdf2add3)
+    4.  [Usage](#org7bcea14)
+        1.  [创建链表](#org369474e)
+        2.  [添加数据](#orgea21931)
+        3.  [删除数据](#orgd871c27)
+        4.  [迭代相关](#orgbccf9e5)
+        5.  [查找相关](#org3e5080e)
 
 
 
-<a id="org1f3e960"></a>
+<a id="org8732e4f"></a>
 
 # LinkedList
+
+
+<a id="orge3ce40d"></a>
+
+## 更新 2022.1.7
+
+
+<a id="orgea9ed1b"></a>
+
+### issue
+
+1.  problem
+
+    在函数中为 `list` 标注类型很别扭, `fn(list::List{Int, ConsDouble})`  
+
+2.  fix
+
+    全都改为双链表节点，老子乐意， `fn(list::List{Int})` 的类型标注以解决  
+    另外，如果需要定义单链表，可以参考 `Dispatch.jl` 定义链表结构  
+
+
+<a id="orgf701c6b"></a>
+
+## 更新 好像是12月份
 
 大幅度删改了以下，文档也是  
 
 
-<a id="orga8a9ab6"></a>
+<a id="orgdf2add3"></a>
 
 ## 文档
 
@@ -27,12 +54,12 @@
 [新版本文档](./docs/LinkedList.md)  
 
 
-<a id="orgef8073a"></a>
+<a id="org7bcea14"></a>
 
 ## Usage
 
 
-<a id="org2cfc0f7"></a>
+<a id="org369474e"></a>
 
 ### 创建链表
 
@@ -43,7 +70,7 @@
     double_list = List(Int; isdouble = true) # 创建一个双链表，其他链表类似的，可以对 isdouble 赋值
 
 
-<a id="orgffdeb78"></a>
+<a id="orgea21931"></a>
 
 ### 添加数据
 
@@ -61,7 +88,7 @@
         end
 
 
-<a id="org63a3edf"></a>
+<a id="orgd871c27"></a>
 
 ### 删除数据
 
@@ -78,7 +105,7 @@
         end
 
 
-<a id="org1db54d2"></a>
+<a id="orgbccf9e5"></a>
 
 ### 迭代相关
 
@@ -96,7 +123,7 @@
 不过 `filter` 需要自己定义，还好我也写了  
 
 
-<a id="org41229d3"></a>
+<a id="org3e5080e"></a>
 
 ### 查找相关
 

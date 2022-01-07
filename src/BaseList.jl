@@ -4,7 +4,7 @@ import Base: push!, popat!, pop!, pushfirst!, popfirst!,
   first, last,
   replace!, filter, keys, eltype
 
-mutable struct BaseList{NodeType <: ListCons, T}
+mutable struct BaseList{T, NodeType <: ListCons }
   dummy::DummyNode{T}
   current::Union{NodeType, DummyNode{T}}
   length::Int
@@ -12,7 +12,7 @@ end
 
 BaseList(T::DataType, nodetype::Type{NodeType}) where NodeType <: ListCons = begin
   dummy = DummyNode(T)
-  return BaseList{nodetype, T}(dummy, dummy, 0)
+  return BaseList{T, nodetype}(dummy, dummy, 0)
 end
  
 
@@ -22,7 +22,7 @@ keys(list::BaseList) = next(list.dummy)
 isempty(list::BaseList) = list.length == 0
 length(list::BaseList) = list.length
 # 2. push!, pop!, pushfirst!, popfirst!, first, last
-function push!(list::BaseList{NodeType, T}, data::T) where {T, NodeType <: ListCons}
+function push!(list::BaseList{T, NodeType}, data::T) where {T, NodeType <: ListCons}
   list.length += 1
 
   newnode = NodeType(data)
@@ -30,7 +30,7 @@ function push!(list::BaseList{NodeType, T}, data::T) where {T, NodeType <: ListC
   list.current = next(list.current)
 end
 
-function pushfirst!(list::BaseList{NodeType, T}, data::T) where {T, NodeType <: ListCons}
+function pushfirst!(list::BaseList{T, NodeType}, data::T) where {T, NodeType <: ListCons}
   list.length += 1
 
   newnode = NodeType(data)
@@ -56,13 +56,13 @@ function popfirst!(list::BaseList)
   remove_next!(prevnode)
 end
 # 3. popat!, pushnext!
-function popat!(list::BaseList{NodeType, T}, iter::NodeType) where {T, NodeType <: ListCons}
+function popat!(list::BaseList{T, NodeType}, iter::NodeType) where {T, NodeType <: ListCons}
   list.length -= 1
   prevnode = prev(iter, list.dummy)
   remove_next!(prevnode)
 end
 
-function pushnext!(list::BaseList{NodeType, T}, iter::NodeType, data::T) where {T, NodeType <: ListCons}
+function pushnext!(list::BaseList{T, NodeType}, iter::NodeType, data::T) where {T, NodeType <: ListCons}
   list.length += 1
   newnode = NodeType(data)
   unlink = next(iter)
@@ -70,7 +70,7 @@ function pushnext!(list::BaseList{NodeType, T}, iter::NodeType, data::T) where {
   insert_next!(iter, newnode)
 end
 # 4. other advanced function, iterate
-eltype(::Type{BaseList{NodeType, T}}) where {NodeType <: ListCons, T} = T
+eltype(::Type{BaseList{T, NodeType}}) where {NodeType <: ListCons, T} = T
 
 function iterate(list::BaseList)
   firstnode = next(list.dummy)
@@ -120,7 +120,7 @@ function show(io::IO, list::BaseList)
   end
 end
 
-function filter(testf::Function, list::BaseList{NodeType, T}) where {T, NodeType <: ListCons}
+function filter(testf::Function, list::BaseList{T, NodeType}) where {T, NodeType <: ListCons}
   result = BaseList{NodeType, T}(DummyNode(T), NodeType(T), 0)
 
   for data in list
