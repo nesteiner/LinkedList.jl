@@ -1,4 +1,3 @@
-import Base: isempty, length, push!, pop!, popat!, first, last, eltype, keys
 
 abstract type AbstractLinkedList{T, NodeType} end
 
