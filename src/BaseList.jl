@@ -41,11 +41,11 @@ end
 
 function pop!(list::BaseList)
   @assert !isempty(list) "Fuck You, the list is empty"
-
   list.length -= 1
   prevnode = prev(list.current, list.dummy)
   remove_next!(prevnode)
   list.current = prevnode
+
 end
 
 function popfirst!(list::BaseList)
@@ -54,6 +54,8 @@ function popfirst!(list::BaseList)
   list.length -= 1
   prevnode = list.dummy
   remove_next!(prevnode)
+  # STUB
+  list.current = prevnode
 end
 # 3. popat!, pushnext!
 function popat!(list::BaseList{T, NodeType}, iter::NodeType) where {T, NodeType <: ListCons}
@@ -95,21 +97,23 @@ replace!(node::NodeType, data::T) where {T, NodeType <: ListCons} =
 
 first(list::BaseList) = begin
   firstnode = next(list.dummy)
-  if isa(firstnode, ListCons)
+  if isa(firstnode, ListNext) && isa(firstnode, ListCons)
     return dataof(firstnode)
+  elseif isa(firstnode, NilNode)
+    throw("there is no data in list")
   else
-    @error "there is no data in list"
-    return nothing
+    throw("Fuck")
   end
 end
 
 last(list::BaseList) = begin
   lastnode = list.current
-  if isa(lastnode, ListCons) 
+  if isa(lastnode, ListNext) && isa(lastnode, ListCons)
     return dataof(lastnode)
+  elseif isa(lastnode, NilNode)
+    throw("there is no data in list")
   else
-    @error "there is no data in list"
-    return nothing
+    throw("Fuck")
   end
 end
 
