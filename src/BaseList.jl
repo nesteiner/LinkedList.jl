@@ -55,7 +55,9 @@ function popfirst!(list::BaseList)
   prevnode = list.dummy
   remove_next!(prevnode)
   # STUB
-  list.current = prevnode
+  if isempty(list)
+    list.current = list.dummy
+  end
 end
 # 3. popat!, pushnext!
 function popat!(list::BaseList{T, NodeType}, iter::NodeType) where {T, NodeType <: ListCons}
