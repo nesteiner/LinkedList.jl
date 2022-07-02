@@ -64,6 +64,10 @@ function popat!(list::BaseList{T, NodeType}, iter::NodeType) where {T, NodeType 
   list.length -= 1
   prevnode = prev(iter, list.dummy)
   remove_next!(prevnode)
+
+  if isempty(list)
+    list.current = list.dummy
+  end
 end
 
 function pushnext!(list::BaseList{T, NodeType}, iter::NodeType, data::T) where {T, NodeType <: ListCons}
