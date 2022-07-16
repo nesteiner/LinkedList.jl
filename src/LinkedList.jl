@@ -1,5 +1,5 @@
 module LinkedList
-import Base: isempty, length, push!, pop!, popat!, first, last, eltype, keys
+import Base: isempty, length, push!, pop!, popat!, first, last, eltype, keys, contains
 
 include("BaseListNode.jl")
 include("BaseList.jl")

@@ -133,3 +133,7 @@
 
 这样以后，可以直接调用 `find` 系列函数，返回值是 `链表节点` 或者空值 `nothing`  
 
+新添加 `contains` 接口
+```julia
+contains(list, data)
+```

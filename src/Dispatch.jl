@@ -61,3 +61,4 @@ show(io::IO, linkedlist::ListType) where ListType <: AbstractLinkedList =
 filter(testf::Function, linkedlist::ListType) where ListType <: AbstractLinkedList =
   filter(testf, linkedlist.baselist)
 eltype(::AbstractLinkedList{T, NodeType}) where {T, NodeType <: ListCons} = T
+contains(list::AbstractLinkedList{T, NodeType}, data::T) where {T, NodeType <: ListCons} = contains(list.baselist, data)
