@@ -142,7 +142,7 @@ function filter(testf::Function, list::BaseList{T, NodeType}) where {T, NodeType
   return result
 end
 
-function contains(list::BaseList{T, NodeTyp}, data::T) where {T, NodeType <: ListCons}
+function contains(list::BaseList{T, NodeType}, data::T) where {T, NodeType <: ListCons}
   for value in list
     if value == data
       return true
