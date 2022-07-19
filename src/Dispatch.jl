@@ -58,7 +58,17 @@ iterate(::ListType, state::NilNode) where ListType <: AbstractLinkedList = nothi
 show(io::IO, linkedlist::ListType) where ListType <: AbstractLinkedList =
   show(io, linkedlist.baselist)
 
-filter(testf::Function, linkedlist::ListType) where ListType <: AbstractLinkedList =
-  filter(testf, linkedlist.baselist)
+
 eltype(::AbstractLinkedList{T, NodeType}) where {T, NodeType <: ListCons} = T
 contains(list::AbstractLinkedList{T, NodeType}, data::T) where {T, NodeType <: ListCons} = contains(list.baselist, data)
+
+function filter(testf::Function, linkedlist::Union{List{T}, Queue{T}}) where T
+  result = List(T)
+  for value in linkedlist
+    if testf(value)
+      push!(result, value)
+    end
+  end
+
+  return result
+end

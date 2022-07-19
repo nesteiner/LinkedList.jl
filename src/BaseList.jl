@@ -130,18 +130,6 @@ function show(io::IO, list::BaseList)
   end
 end
 
-function filter(testf::Function, list::BaseList{T, NodeType}) where {T, NodeType <: ListCons}
-  result = BaseList{T, NodeType}(DummyNode(T), NodeType(T), 0)
-
-  for data in list
-    if testf(data)
-      push!(result, data)
-    end
-  end
-
-  return result
-end
-
 function contains(list::BaseList{T, NodeType}, data::T) where {T, NodeType <: ListCons}
   for value in list
     if value == data

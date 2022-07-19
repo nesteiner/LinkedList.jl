@@ -17,3 +17,15 @@ using LinkedList, Test
 
   @show list
 end
+
+@testset "test filter" begin
+  list = List(Int)
+
+  for i in 1:10
+    push!(list, i)
+  end
+
+  result = filter(iseven, list)
+  @show result
+  @show length(result)
+end
