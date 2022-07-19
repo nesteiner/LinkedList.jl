@@ -131,7 +131,7 @@ function show(io::IO, list::BaseList)
 end
 
 function filter(testf::Function, list::BaseList{T, NodeType}) where {T, NodeType <: ListCons}
-  result = BaseList{NodeType, T}(DummyNode(T), NodeType(T), 0)
+  result = BaseList{T, NodeType}(DummyNode(T), NodeType(T), 0)
 
   for data in list
     if testf(data)
