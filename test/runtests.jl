@@ -29,3 +29,21 @@ end
   @show result
   @show length(result)
 end
+
+
+@testset "when element is union all" begin
+  list = List(NamedTuple{(:x, :y), Tuple{T1, T2}} where {T1 <: Number, T2 <: Number})
+
+  array = [
+    (x = 1, y = 1),
+    (x = 2, y = 2),
+    (x = 3, y = 3),
+    (x = 4, y = 4)
+  ]
+
+  for value in array
+    push!(list, value)
+  end
+
+  @show list
+end

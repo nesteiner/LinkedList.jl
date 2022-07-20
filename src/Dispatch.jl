@@ -14,11 +14,11 @@ mutable struct Stack{T} <: AbstractLinkedList{T, ConsDouble}
 end
 
 # constructor
-List(T::DataType) =  List{T}(BaseList(T, ConsDouble))
+List(T::Union{DataType, UnionAll}) =  List{T}(BaseList(T, ConsDouble))
 
-Queue(T::DataType) = Queue{T}(BaseList(T, ConsDouble))
+Queue(T::Union{DataType, UnionAll}) = Queue{T}(BaseList(T, ConsDouble))
 
-Stack(T::DataType) =  Stack{T}(BaseList(T, ConsDouble))
+Stack(T::Union{DataType, UnionAll}) =  Stack{T}(BaseList(T, ConsDouble))
 
 # now you can give then differnt method to imply
 isempty(linkedlist::ListType) where ListType <: AbstractLinkedList = isempty(linkedlist.baselist)

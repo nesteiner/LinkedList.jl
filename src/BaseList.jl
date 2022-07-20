@@ -10,7 +10,7 @@ mutable struct BaseList{T, NodeType <: ListCons }
   length::Int
 end
 
-BaseList(T::DataType, nodetype::Type{NodeType}) where NodeType <: ListCons = begin
+BaseList(T::Union{DataType, UnionAll}, nodetype::Type{NodeType}) where NodeType <: ListCons = begin
   dummy = DummyNode(T)
   return BaseList{T, nodetype}(dummy, dummy, 0)
 end

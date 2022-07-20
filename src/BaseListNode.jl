@@ -8,7 +8,7 @@ mutable struct NilNode{T} <: ListNode end
 
 mutable struct DummyNode{T} <: ListNext
   next::ListNode
-  DummyNode(E::DataType)  = new{E}(NilNode{E}())
+  DummyNode(E::Union{DataType, UnionAll})  = new{E}(NilNode{E}())
 end
 
 mutable struct ConsNode{T} <: ListCons 
