@@ -25,13 +25,13 @@ isempty(linkedlist::ListType) where ListType <: AbstractLinkedList = isempty(lin
 length(linkedlist::ListType) where ListType <: AbstractLinkedList = length(linkedlist.baselist)
 keys(linkedlist::ListType) where ListType <: AbstractLinkedList = keys(linkedlist.baselist)
 # dispatch push and pop function into different linkedlist
-push!(list::Union{List{T}, Queue{T}}, data::T) where T = 
+push!(list::Union{List{T}, Queue{T}}, data::E) where {T, E <: T} = 
   push!(list.baselist, data)
 
 pop!(list::List) =
   pop!(list.baselist)
 
-pushnext!(list::List{T}, iter::NodeType, data::T) where {T, NodeType <: ListCons} =
+pushnext!(list::List{T}, iter::NodeType, data::E) where {T, E <: T, NodeType <: ListCons} =
   pushnext!(list.baselist, iter, data)
 
 popat!(list::List{T}, iter::NodeType) where {T, NodeType <: ListCons} =

@@ -22,7 +22,7 @@ keys(list::BaseList) = next(list.dummy)
 isempty(list::BaseList) = list.length == 0
 length(list::BaseList) = list.length
 # 2. push!, pop!, pushfirst!, popfirst!, first, last
-function push!(list::BaseList{T, NodeType}, data::T) where {T, NodeType <: ListCons}
+function push!(list::BaseList{T, NodeType}, data::E) where {T, E <: T, NodeType <: ListCons}
   list.length += 1
 
   newnode = NodeType(data)
@@ -30,7 +30,7 @@ function push!(list::BaseList{T, NodeType}, data::T) where {T, NodeType <: ListC
   list.current = next(list.current)
 end
 
-function pushfirst!(list::BaseList{T, NodeType}, data::T) where {T, NodeType <: ListCons}
+function pushfirst!(list::BaseList{T, NodeType}, data::E) where {T, E <: T, NodeType <: ListCons}
   list.length += 1
 
   newnode = NodeType(data)
@@ -70,7 +70,7 @@ function popat!(list::BaseList{T, NodeType}, iter::NodeType) where {T, NodeType 
   end
 end
 
-function pushnext!(list::BaseList{T, NodeType}, iter::NodeType, data::T) where {T, NodeType <: ListCons}
+function pushnext!(list::BaseList{T, NodeType}, iter::NodeType, data::E) where {T, E <: T, NodeType <: ListCons}
   list.length += 1
   newnode = NodeType(data)
   unlink = next(iter)
@@ -130,7 +130,7 @@ function show(io::IO, list::BaseList)
   end
 end
 
-function contains(list::BaseList{T, NodeType}, data::T) where {T, NodeType <: ListCons}
+function contains(list::BaseList{T, NodeType}, data::E) where {T, E <: T, NodeType <: ListCons}
   for value in list
     if value == data
       return true
